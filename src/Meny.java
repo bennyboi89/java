@@ -3,10 +3,12 @@ import java.awt.List;
 import static java.nio.file.Files.list;
 import static java.rmi.Naming.list;
 import java.util.ArrayList;
+import java.util.Arrays;
 import static java.util.Collections.list;
 import java.util.Scanner;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,6 +27,10 @@ public class Meny extends javax.swing.JFrame {
    ArrayList<Læreprogram> læreprogram = new ArrayList<Læreprogram>();
    final ArrayList<Rom> rom = new ArrayList<Rom>();
    Scanner scanner = new Scanner(System.in);
+   DefaultTableModel model = new DefaultTableModel();
+   
+           
+           
   
    
    
@@ -67,7 +73,9 @@ public class Meny extends javax.swing.JFrame {
         jPanelKrypdyr = new javax.swing.JPanel();
         jPanelRommene = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPaneRom = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListRom = new javax.swing.JList();
+        jButtonHjem2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.OverlayLayout(getContentPane()));
@@ -290,9 +298,17 @@ public class Meny extends javax.swing.JFrame {
 
         jLabel1.setText("Rommene");
 
-        jScrollPaneRom.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                jScrollPaneRomComponentShown(evt);
+        jListRom.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jListRom);
+
+        jButtonHjem2.setText("Hjem");
+        jButtonHjem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHjem2ActionPerformed(evt);
             }
         });
 
@@ -300,23 +316,27 @@ public class Meny extends javax.swing.JFrame {
         jPanelRommene.setLayout(jPanelRommeneLayout);
         jPanelRommeneLayout.setHorizontalGroup(
             jPanelRommeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRommeneLayout.createSequentialGroup()
+            .addGroup(jPanelRommeneLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(140, 140, 140))
             .addGroup(jPanelRommeneLayout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(jScrollPaneRom, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addComponent(jButtonHjem2)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanelRommeneLayout.createSequentialGroup()
+                .addGap(117, 117, 117)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         jPanelRommeneLayout.setVerticalGroup(
             jPanelRommeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelRommeneLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addComponent(jButtonHjem2)
+                .addGap(5, 5, 5)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPaneRom, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanelRommene);
@@ -330,7 +350,7 @@ public class Meny extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLeggeTilRomActionPerformed
 
     private void jTextFieldRomNavnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRomNavnActionPerformed
-        String romNavn = scanner.nextLine();
+        
         
     }//GEN-LAST:event_jTextFieldRomNavnActionPerformed
 
@@ -365,38 +385,48 @@ public class Meny extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonKrypdyrActionPerformed
 
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
-       
-      //  rom.add(jTextFieldRomNavn.getText());
-      
-       //rom.add(jTextFieldRomNummer.getText());
-      
-        int i = Integer.parseInt(jTextFieldRomNummer.getText());
         Rom rommet = new Rom();
-        //rommet.add(jTextFieldRomNavn.getText());
+        int i = Integer.parseInt(jTextFieldRomNummer.getText());
         rommet.setRomNummer(i);
         rommet.setRomNavn(jTextFieldRomNavn.getText());
         rom.add(rommet);
-        
-        
-        for(Rom p : rom){
-            System.out.println(p.romNavn()+ p.romNummer());
+       
+        final DefaultListModel modell = new DefaultListModel();
+        for(Rom y : rom)
+        {
+            modell.addElement(y);
         }
+        jListRom.setModel(modell);
+        for(Rom p : rom){
+            System.out.println(p);
+        }
+        
+        
         
         
         
     }//GEN-LAST:event_jButtonEnterActionPerformed
 
+   
+    
     private void jTextFieldRomNummerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRomNummerActionPerformed
         
     }//GEN-LAST:event_jTextFieldRomNummerActionPerformed
 
     private void jButtonViseRomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonViseRomActionPerformed
-        // TODO add your handling code here:
+        jPanelRom.setVisible(false);
+        jListRom.setVisible(true);
+        jPanelRommene.setVisible(true);
+        jScrollPane1.setVisible(true);
+        
     }//GEN-LAST:event_jButtonViseRomActionPerformed
 
-    private void jScrollPaneRomComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPaneRomComponentShown
-        
-    }//GEN-LAST:event_jScrollPaneRomComponentShown
+    private void jButtonHjem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHjem2ActionPerformed
+        jPanelRommene.setVisible(false);
+        jListRom.setVisible(false);
+        jPanelHome.setVisible(true);
+        jScrollPane1.setVisible(false);
+    }//GEN-LAST:event_jButtonHjem2ActionPerformed
 
     
     
@@ -442,6 +472,7 @@ public class Meny extends javax.swing.JFrame {
     private javax.swing.JButton jButtonFugl;
     private javax.swing.JButton jButtonHjem;
     private javax.swing.JButton jButtonHjem1;
+    private javax.swing.JButton jButtonHjem2;
     private javax.swing.JButton jButtonKrypdyr;
     private javax.swing.JButton jButtonLeggeTilRom;
     private javax.swing.JButton jButtonPattedyr;
@@ -449,6 +480,7 @@ public class Meny extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelRomNavn;
     private javax.swing.JLabel jLabelRomNummer;
+    private javax.swing.JList jListRom;
     private javax.swing.JPanel jPanelDyr;
     private javax.swing.JPanel jPanelFugl;
     private javax.swing.JPanel jPanelHome;
@@ -456,7 +488,7 @@ public class Meny extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelPattedyr;
     private javax.swing.JPanel jPanelRom;
     private javax.swing.JPanel jPanelRommene;
-    private javax.swing.JScrollPane jScrollPaneRom;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldRomNavn;
     private javax.swing.JTextField jTextFieldRomNummer;
     // End of variables declaration//GEN-END:variables
